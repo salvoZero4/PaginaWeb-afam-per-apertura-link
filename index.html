@@ -35,22 +35,6 @@
       color: #4b5563;
     }
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 13px 14px;
-      border: 1px solid #cbd2e1;
-      border-radius: 10px;
-      font-size: 15px;
-      margin-bottom: 14px;
-    }
-
     button {
       border: 0;
       border-radius: 10px;
@@ -77,14 +61,10 @@
   <main>
     <h1>Portfolio AFAM condiviso</h1>
     <p id="descrizione">
-      Questa pagina dimostra l'apertura dell'app desktop tramite un link
-      personalizzato <strong>afam://</strong>.
+      Apertura dell'app desktop AFAM in corso.
     </p>
 
-    <label for="link">Link condiviso</label>
-    <input id="link" value="afam://1/1" placeholder="Incolla qui il link generato dall'app">
-
-    <button type="button" onclick="apriPortfolio()">Apri portfolio condiviso</button>
+    <button id="fallback" type="button" onclick="apriPortfolio()">Apri portfolio condiviso</button>
 
     <p class="hint">
       Il browser potrebbe chiedere conferma prima di aprire l'app desktop.
@@ -96,16 +76,19 @@
     const params = new URLSearchParams(window.location.search);
     const linkParam = params.get("link");
     if (linkParam) {
-      document.getElementById("link").value = linkParam;
       document.getElementById("descrizione").innerHTML =
         "Apertura dell'app desktop AFAM in corso. Se il browser chiede conferma, accetta per visualizzare il portfolio condiviso.";
       window.setTimeout(apriPortfolio, 700);
+    } else {
+      document.getElementById("descrizione").innerHTML =
+        "Link non valido o mancante. Apri questa pagina dal link ricevuto via email.";
+      document.getElementById("fallback").style.display = "none";
     }
 
     function apriPortfolio() {
-      const link = document.getElementById("link").value.trim();
+      const link = linkParam ? linkParam.trim() : "";
       if (!link.startsWith("afam://")) {
-        alert("Inserisci un link che inizi con afam://");
+        alert("Link AFAM non valido.");
         return;
       }
       window.location.href = link;

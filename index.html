@@ -76,7 +76,7 @@
 <body>
   <main>
     <h1>Portfolio AFAM condiviso</h1>
-    <p>
+    <p id="descrizione">
       Questa pagina dimostra l'apertura dell'app desktop tramite un link
       personalizzato <strong>afam://</strong>.
     </p>
@@ -88,8 +88,7 @@
 
     <p class="hint">
       Il browser potrebbe chiedere conferma prima di aprire l'app desktop.
-      Per la demo, puoi sostituire il valore del campo oppure passare il link nella URL
-      della pagina usando il parametro <strong>?link=</strong>.
+      Se l'app non si apre automaticamente, premi il pulsante.
     </p>
   </main>
 
@@ -98,6 +97,9 @@
     const linkParam = params.get("link");
     if (linkParam) {
       document.getElementById("link").value = linkParam;
+      document.getElementById("descrizione").innerHTML =
+        "Apertura dell'app desktop AFAM in corso. Se il browser chiede conferma, accetta per visualizzare il portfolio condiviso.";
+      window.setTimeout(apriPortfolio, 700);
     }
 
     function apriPortfolio() {
@@ -111,3 +113,4 @@
   </script>
 </body>
 </html>
+
